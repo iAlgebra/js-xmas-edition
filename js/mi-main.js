@@ -1,6 +1,3 @@
-const $form = document.querySelector('#carta-a-santa');
-const $submit = $form.submit;
-
 function validateName(name) {
     if(name.length === 0) {
         return 'This input must have at least 1 character';
@@ -39,11 +36,32 @@ function validateGiftDescription(giftDescription) {
     return '';
 }
 
-$submit.onclick = function () {
-    console.log($form.nombre.value);
-    console.log($form.ciudad.value);
-    console.log($form.comportamiento.value);
-    console.log($form['descripcion-regalo'].value);
-    validateName($form.nombre.value);
-    validateCity($form.ciudad.value);
+function validateForm(event) {
+    const $form = document.querySelector('#carta-a-santa');
+
+    const name = $form.nombre.value;
+    const city = $form.ciudad.value;
+    const giftDescription = $form["descripcion-regalo"].value;
+
+    const errorName = validateName(name);
+    const errorCity = validateCity(city);
+    const errorGiftDescription = validateGiftDescription(giftDescription);
+
+    handleErrors([errorName]);
+
+    event.preventDefault();
 }
+
+function handleErrors(errors) {
+    const errorName = errors[0];
+
+    if (errorName) {
+        $form.nombre.className = 'error';
+    } else {
+        $form.nombre.className = '';
+        console.log('No errors!');
+    }
+}
+
+const $form = document.querySelector('#carta-a-santa');
+$form.onsubmit = validateForm;
