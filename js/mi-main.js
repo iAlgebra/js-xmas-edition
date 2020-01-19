@@ -1,10 +1,10 @@
 function validateName(name) {
   if (name.length === 0) {
-    return 'This input must have at least 1 character';
+    return 'Name must have at least 1 character';
   }
 
   if (name.length >= 50) {
-    return 'This input must have less than 50 characters';
+    return 'Name must have less than 50 characters';
   }
 
   if (!/^[a-z]+$/i.test(name)) {
@@ -53,7 +53,16 @@ function validateForm(event) {
     'descripcion-regalo': errorGiftDescription,
   };
 
-  handleErrors(errors);
+  const isSuccessful = handleErrors(errors) === 0;
+
+  if (isSuccessful) {
+    $form.className = 'oculto';
+    document.querySelector('#exito').className = '';
+
+    setTimeout(() => {
+      window.location.href = 'wishlist.html';
+    }, 5000);
+  }
 
   event.preventDefault();
 }
@@ -61,16 +70,27 @@ function validateForm(event) {
 function handleErrors(errors) {
 
   const keys = Object.keys(errors);
+  const $errors = document.querySelector('#errores');
+  let errorsQuantity = 0;
+
+  $errors.textContent = '';
 
   keys.forEach((key) => {
     const error = errors[key];
 
     if (error) {
+      errorsQuantity++;
       $form[key].className = 'error';
+
+      const $error = document.createElement('li');
+      $error.textContent = error;
+      $errors.appendChild($error);
     } else {
       $form[key].className = '';
     }
   });
+
+  return errorsQuantity;
 }
 
 const $form = document.querySelector('#carta-a-santa');

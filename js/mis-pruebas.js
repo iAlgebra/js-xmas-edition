@@ -1,13 +1,13 @@
 function testValidateName() {
     console.assert(
-        validateName('') === 'This input must have at least 1 character',
+        validateName('') === 'Name must have at least 1 character',
         "Validate Name didn't validate that the name was not empty",
     );
 
     console.assert(
         validateName(
             '111111111111111111111111111111111111111111111111111111111111111111111111111111111111111') ===
-        'This input must have less than 50 characters',
+        'Name must have less than 50 characters',
         "Validate Name didn't validate that the name has less than 50 characters",
     );
 
